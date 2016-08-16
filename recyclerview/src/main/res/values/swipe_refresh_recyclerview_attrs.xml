@@ -8,10 +8,6 @@
     </declare-styleable>
 
     <declare-styleable name="SwipeRefreshRecyclerView">
-        <attr name="Mode" format="enum">
-            <enum name="BOTH" value="0"/>
-            <enum name="REFRESH" value="1"/>
-            <enum name="LOAD_MORE" value="2"/>
-        </attr>
+        <attr name="loadMoreEnabled" format="boolean"/>
     </declare-styleable>
 </resources>

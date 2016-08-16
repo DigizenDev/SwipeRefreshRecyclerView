@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:indicator="BallSpinFadeLoader"
-        app:indicator_color="@color/srrColorAccent"
+        app:indicator_color="?attr/colorAccent"
         android:layout_marginRight="@dimen/dp_4"
         />
 
@@ -22,6 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_4"
         android:text="@string/list_footer_loading"
-        android:textColor="@color/srrColorAccent"
+        android:textColor="?attr/colorAccent"
         android:textSize="@dimen/sp_14" />
 </LinearLayout>

@@ -167,7 +167,8 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     }
 
     public boolean isHeader(int position) {
-        return getHeaderViewsCount() > 0 && position == 0;
+        //return getHeaderViewsCount() > 0 && position ==0;
+        return getHeaderViewsCount() > 0 && position <= mHeaderViews.size()-1;
     }
 
     public boolean isFooter(int position) {

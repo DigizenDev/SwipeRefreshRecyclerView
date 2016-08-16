@@ -2,16 +2,21 @@ package com.dyhdyh.swiperefresh.recyclerview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.cundong.recyclerview.CustRecyclerView;
+import com.cundong.recyclerview.ExStaggeredGridLayoutManager;
 import com.cundong.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.cundong.recyclerview.HeaderSpanSizeLookup;
 import com.cundong.recyclerview.LoadingFooter;
 import com.cundong.recyclerview.RecyclerOnScrollListener;
 import com.cundong.recyclerview.RecyclerViewUtils;
@@ -26,14 +31,10 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     private CustRecyclerView mRecyclerView;
     private LoadingFooter mLoadingFooter;
     private HeaderAndFooterRecyclerViewAdapter mRecyclerViewAdapter;
-    private int mMode;
+    private boolean mLoadMoreEnabled;
     protected OnRefreshListener mOnRefreshListener;
 
     private boolean mLoadMore = true;
-
-    public static final int MODE_BOTH = 0;
-    public static final int MODE_REFRESH = 1;
-    public static final int MODE_LOAD_MORE = 2;
 
     private final String TAG="SwipeRefreshRecycler";
 
@@ -45,7 +46,13 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     public SwipeRefreshRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         //刷新进度圈的默认颜色
-        TypedArray androidTypedArray = context.obtainStyledAttributes(new int[]{android.support.v7.appcompat.R.attr.colorAccent});
+        int[] colorAccentAttributes;
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+            colorAccentAttributes=new int[]{android.R.attr.colorAccent};
+        }else{
+            colorAccentAttributes=new int[]{android.support.v7.appcompat.R.attr.colorAccent};
+        }
+        TypedArray androidTypedArray = context.obtainStyledAttributes(colorAccentAttributes);
         int defaultColorScheme = androidTypedArray.getColor(0, 0);
         if (defaultColorScheme != 0) {
             setColorSchemeColors(defaultColorScheme);
@@ -59,29 +66,12 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         //自定义属性
         TypedArray a = context.obtainStyledAttributes(R.styleable.SwipeRefreshRecyclerView);
         //模式
-        mMode = a.getInt(R.styleable.SwipeRefreshRecyclerView_Mode, MODE_BOTH);
+        this.mLoadMoreEnabled = a.getBoolean(R.styleable.SwipeRefreshRecyclerView_loadMoreEnabled, true);
         a.recycle();
     }
 
     public RecyclerView getRecyclerView() {
         return mRecyclerView;
-    }
-
-    private void setMode(int mode) {
-        this.mMode = mode;
-        switch (this.mMode) {
-            case MODE_REFRESH:
-                setEnabled(true);
-                break;
-            case MODE_LOAD_MORE:
-                setEnabled(false);
-                break;
-            default:
-                if (!isEnabled()) {
-                    setEnabled(true);
-                }
-                break;
-        }
     }
 
     @Override
@@ -93,13 +83,30 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     public void setAdapter(RecyclerView.Adapter adapter) {
         this.mRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(adapter);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
-        mLoadingFooter = new LoadingFooter(getContext());
-        this.setLoadMoreView(mLoadingFooter);
+        if (mLoadMoreEnabled){
+            mLoadingFooter = new LoadingFooter(getContext());
+            this.setLoadMoreView(mLoadingFooter);
+        }
     }
 
 
-    public void setLayoutManager(RecyclerView.LayoutManager layout) {
-        mRecyclerView.setLayoutManager(layout);
+    public void setLoadMoreEnabled(boolean loadMoreEnabled) {
+        this.mLoadMoreEnabled = loadMoreEnabled;
+    }
+
+    public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
+        if (layoutManager instanceof GridLayoutManager){
+            ((GridLayoutManager) layoutManager).setSpanSizeLookup(new HeaderSpanSizeLookup(mRecyclerViewAdapter, ((GridLayoutManager) layoutManager).getSpanCount()));
+        }else if(layoutManager instanceof StaggeredGridLayoutManager){
+            int spanCount=((StaggeredGridLayoutManager) layoutManager).getSpanCount();
+            layoutManager=new ExStaggeredGridLayoutManager(spanCount,((StaggeredGridLayoutManager) layoutManager).getOrientation());
+            ((ExStaggeredGridLayoutManager) layoutManager).setSpanSizeLookup(new HeaderSpanSizeLookup(mRecyclerViewAdapter, spanCount));
+        }
+        mRecyclerView.setLayoutManager(layoutManager);
+    }
+
+    public RecyclerView.LayoutManager getLayoutManager() {
+        return mRecyclerView.getLayoutManager();
     }
 
     public RecyclerView.Adapter getAdapter() {
@@ -199,13 +206,16 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     /**
      * 刷新完成或者加载更多完成
      */
-    public void refreshcomplete() {
+    public void refreshComplete() {
         super.setRefreshing(false);
         mLoadMore = true;
         setLoadingFooterState(LoadingFooter.State.Normal);
     }
 
     public void setLoadingFooterState(LoadingFooter.State state) {
+        if (mLoadingFooter==null){
+            return;
+        }
         mLoadingFooter.setState(state);
     }
 
