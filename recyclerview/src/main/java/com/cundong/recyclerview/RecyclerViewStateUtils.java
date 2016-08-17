@@ -123,9 +123,12 @@ public class RecyclerViewStateUtils {
 
         RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
         if (outerAdapter != null && outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter) {
-            if (((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getFooterViewsCount() > 0) {
-                LoadingFooter footerView = (LoadingFooter) ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getFooterView();
-                return footerView.getState();
+            int footerViewCount=((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getFooterViewsCount();
+            if (footerViewCount > 0) {
+                View footerView = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getFooterView(footerViewCount-1);
+                if (footerView instanceof LoadingFooter){
+                    return ((LoadingFooter)footerView).getState();
+                }
             }
         }
 

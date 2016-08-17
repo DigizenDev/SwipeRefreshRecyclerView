@@ -33,8 +33,6 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     private boolean mLoadMoreEnabled;
     protected OnRefreshListener mOnRefreshListener;
 
-    private boolean mLoadMore = true;
-
     private final String TAG = "SwipeRefreshRecycler";
 
 
@@ -56,7 +54,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         if (colorScheme != 0) {
             setColorSchemeColors(colorScheme);
         } else {
-            setDefaultColorScheme(context, attrs);
+            //setDefaultColorScheme(context, attrs);
         }
         //模式
         this.mLoadMoreEnabled = a.getBoolean(R.styleable.SwipeRefreshRecyclerView_loadMoreEnabled, true);
@@ -64,6 +62,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         a.recycle();
     }
 
+    @Deprecated
     private void setDefaultColorScheme(Context context, AttributeSet attr) {
         //刷新进度圈的默认颜色
         int[] colorAccentAttributes;
@@ -168,7 +167,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     }
 
     public void setEmptyView(View emptyView) {
-       // mRecyclerView.setEmptyView(emptyView);
+        // mRecyclerView.setEmptyView(emptyView);
     }
 
     public int getHeadersCount() {
@@ -199,14 +198,19 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
 
         @Override
         public void onBottom() {
-            if (mLoadMore) {
+            if (!mLoadMoreEnabled) {
+                return;
+            }
+            LoadingFooter.State state = getLoadingFooterState();
+            if (state == LoadingFooter.State.Loading) {
+                Log.d(TAG, "上一个请求还未执行完成");
+            }else if (state == LoadingFooter.State.TheEnd) {
+                Log.d(TAG, "已经到底了");
+            }else{
                 if (mOnRefreshListener != null && mOnRefreshListener instanceof OnRefreshListener2 && mRecyclerViewAdapter.getInnerAdapter().getItemCount() > 0) {
                     setLoadingFooterState(LoadingFooter.State.Loading);
                     ((OnRefreshListener2) mOnRefreshListener).onLoadMore();
-                    mLoadMore = false;
                 }
-            } else {
-                Log.d(TAG, "上一个加载更多请求尚未完成");
             }
         }
     };
@@ -232,7 +236,6 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
      */
     public void refreshComplete() {
         super.setRefreshing(false);
-        mLoadMore = true;
         setLoadingFooterState(LoadingFooter.State.Normal);
     }
 
@@ -241,6 +244,13 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
             return;
         }
         mLoadingFooter.setState(state);
+    }
+
+    public LoadingFooter.State getLoadingFooterState() {
+        if (mLoadingFooter == null) {
+            return LoadingFooter.State.Normal;
+        }
+        return mLoadingFooter.getState();
     }
 
     public interface OnRefreshListener2 extends OnRefreshListener {

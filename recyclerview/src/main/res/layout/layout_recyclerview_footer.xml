@@ -18,7 +18,7 @@
         android:layout_marginLeft="@dimen/dp_4"
         android:layout_marginRight="@dimen/dp_10"
         android:text="The Footer"
-        android:textColor="@color/srrColorAccent"
+        android:textColor="?attr/colorAccent"
         android:textSize="@dimen/sp_16"
         android:textStyle="bold" />
 
