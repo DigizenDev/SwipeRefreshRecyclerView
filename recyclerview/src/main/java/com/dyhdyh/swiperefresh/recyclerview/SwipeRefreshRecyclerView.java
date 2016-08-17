@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.cundong.recyclerview.CustRecyclerView;
 import com.cundong.recyclerview.ExStaggeredGridLayoutManager;
 import com.cundong.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.cundong.recyclerview.HeaderSpanSizeLookup;
@@ -28,7 +27,7 @@ import com.cundong.recyclerview.RecyclerViewUtils;
  * @create 2016/7/23 21:45
  */
 public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
-    private CustRecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
     private LoadingFooter mLoadingFooter;
     private HeaderAndFooterRecyclerViewAdapter mRecyclerViewAdapter;
     private boolean mLoadMoreEnabled;
@@ -47,7 +46,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         super(context, attrs);
 
         //初始化RecyclerView
-        this.mRecyclerView = new CustRecyclerView(context, attrs);
+        this.mRecyclerView = new RecyclerView(context, attrs);
         this.mRecyclerView.addOnScrollListener(mOnScrollListener);
         addView(this.mRecyclerView);
 
@@ -169,7 +168,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     }
 
     public void setEmptyView(View emptyView) {
-        mRecyclerView.setEmptyView(emptyView);
+       // mRecyclerView.setEmptyView(emptyView);
     }
 
     public int getHeadersCount() {

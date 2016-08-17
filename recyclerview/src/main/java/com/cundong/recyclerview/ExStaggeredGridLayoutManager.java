@@ -21,6 +21,16 @@ public class ExStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
     }
 
     /**
+     * Disable predictive animations. There is a bug in RecyclerView which causes views that
+     * are being reloaded to pull invalid ViewHolders from the internal recycler stack if the
+     * adapter size has decreased since the ViewHolder was recycled.
+     */
+    @Override
+    public boolean supportsPredictiveItemAnimations() {
+        return false;
+    }
+
+    /**
      * Returns the current used by the GridLayoutManager.
      *
      * @return The current used by the GridLayoutManager.
@@ -55,25 +65,15 @@ public class ExStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
                          *占用所有的列
                          * @see https://plus.google.com/+EtienneLawlor/posts/c5T7fu9ujqi
                          */
-                        LayoutParams lp = (LayoutParams) view.getLayoutParams();
+                        StaggeredGridLayoutManager.LayoutParams lp = (StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams();
                         lp.setFullSpan(true);
                     }
                     // recycler.recycleView(view);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
         }
         super.onMeasure(recycler, state, widthSpec, heightSpec);
-    }
-
-    /**
-     * Disable predictive animations. There is a bug in RecyclerView which causes views that
-     * are being reloaded to pull invalid ViewHolders from the internal recycler stack if the
-     * adapter size has decreased since the ViewHolder was recycled.
-     */
-    @Override
-    public boolean supportsPredictiveItemAnimations() {
-        return false;
     }
 }
