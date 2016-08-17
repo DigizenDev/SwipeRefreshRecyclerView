@@ -213,7 +213,6 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         if (position < headerViewsCountCount) {
             return TYPE_HEADER_VIEW + position;
         } else if (headerViewsCountCount <= position && position < headerViewsCountCount + innerCount) {
-
             int innerItemViewType = mInnerAdapter.getItemViewType(position - headerViewsCountCount);
             if(innerItemViewType >= Integer.MAX_VALUE / 2) {
                 throw new IllegalArgumentException("your adapter's return value of getViewTypeCount() must < Integer.MAX_VALUE / 2");
@@ -222,6 +221,43 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         } else {
             return TYPE_FOOTER_VIEW + position - headerViewsCountCount - innerCount;
         }
+    }
+
+    @Override
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        if (isInner(holder.getAdapterPosition())){
+            mInnerAdapter.onViewAttachedToWindow(holder);
+        }
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+        if (isInner(holder.getAdapterPosition())){
+            mInnerAdapter.onViewDetachedFromWindow(holder);
+        }
+    }
+
+    @Override
+    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+        if (isInner(holder.getAdapterPosition())){
+            mInnerAdapter.onViewRecycled(holder);
+        }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        mInnerAdapter.onAttachedToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        mInnerAdapter.onDetachedFromRecyclerView(recyclerView);
+    }
+
+
+    private boolean isInner(int position) {
+        int headerViewsCountCount = getHeaderViewsCount();
+        return position >= headerViewsCountCount && position < headerViewsCountCount + mInnerAdapter.getItemCount();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -9,5 +9,6 @@
 
     <declare-styleable name="SwipeRefreshRecyclerView">
         <attr name="loadMoreEnabled" format="boolean"/>
+        <attr name="colorScheme" format="color"/>
     </declare-styleable>
 </resources>

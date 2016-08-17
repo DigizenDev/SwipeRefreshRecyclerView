@@ -36,7 +36,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
 
     private boolean mLoadMore = true;
 
-    private final String TAG="SwipeRefreshRecycler";
+    private final String TAG = "SwipeRefreshRecycler";
 
 
     public SwipeRefreshRecyclerView(Context context) {
@@ -45,29 +45,40 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
 
     public SwipeRefreshRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        //刷新进度圈的默认颜色
-        int[] colorAccentAttributes;
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
-            colorAccentAttributes=new int[]{android.R.attr.colorAccent};
-        }else{
-            colorAccentAttributes=new int[]{android.support.v7.appcompat.R.attr.colorAccent};
-        }
-        TypedArray androidTypedArray = context.obtainStyledAttributes(colorAccentAttributes);
-        int defaultColorScheme = androidTypedArray.getColor(0, 0);
-        if (defaultColorScheme != 0) {
-            setColorSchemeColors(defaultColorScheme);
-        }
-        androidTypedArray.recycle();
+
         //初始化RecyclerView
         this.mRecyclerView = new CustRecyclerView(context, attrs);
         this.mRecyclerView.addOnScrollListener(mOnScrollListener);
         addView(this.mRecyclerView);
 
         //自定义属性
-        TypedArray a = context.obtainStyledAttributes(R.styleable.SwipeRefreshRecyclerView);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwipeRefreshRecyclerView);
+        int colorScheme = a.getColor(R.styleable.SwipeRefreshRecyclerView_colorScheme, 0);
+        if (colorScheme != 0) {
+            setColorSchemeColors(colorScheme);
+        } else {
+            setDefaultColorScheme(context, attrs);
+        }
         //模式
         this.mLoadMoreEnabled = a.getBoolean(R.styleable.SwipeRefreshRecyclerView_loadMoreEnabled, true);
+
         a.recycle();
+    }
+
+    private void setDefaultColorScheme(Context context, AttributeSet attr) {
+        //刷新进度圈的默认颜色
+        int[] colorAccentAttributes;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            colorAccentAttributes = new int[]{android.R.attr.colorAccent};
+        } else {
+            colorAccentAttributes = new int[]{android.support.v7.appcompat.R.attr.colorAccent};
+        }
+        TypedArray androidTypedArray = context.obtainStyledAttributes(attr, colorAccentAttributes);
+        int defaultColorScheme = androidTypedArray.getColor(0, 0);
+        if (defaultColorScheme != 0) {
+            setColorSchemeColors(defaultColorScheme);
+        }
+        androidTypedArray.recycle();
     }
 
     public RecyclerView getRecyclerView() {
@@ -83,7 +94,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     public void setAdapter(RecyclerView.Adapter adapter) {
         this.mRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(adapter);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
-        if (mLoadMoreEnabled){
+        if (mLoadMoreEnabled) {
             mLoadingFooter = new LoadingFooter(getContext());
             this.setLoadMoreView(mLoadingFooter);
         }
@@ -95,12 +106,16 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     }
 
     public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
-        if (layoutManager instanceof GridLayoutManager){
+        if (layoutManager instanceof GridLayoutManager) {
             ((GridLayoutManager) layoutManager).setSpanSizeLookup(new HeaderSpanSizeLookup(mRecyclerViewAdapter, ((GridLayoutManager) layoutManager).getSpanCount()));
-        }else if(layoutManager instanceof StaggeredGridLayoutManager){
-            int spanCount=((StaggeredGridLayoutManager) layoutManager).getSpanCount();
-            layoutManager=new ExStaggeredGridLayoutManager(spanCount,((StaggeredGridLayoutManager) layoutManager).getOrientation());
-            ((ExStaggeredGridLayoutManager) layoutManager).setSpanSizeLookup(new HeaderSpanSizeLookup(mRecyclerViewAdapter, spanCount));
+        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+            int spanCount = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
+            ExStaggeredGridLayoutManager exLayoutManager = new ExStaggeredGridLayoutManager(spanCount, ((StaggeredGridLayoutManager) layoutManager).getOrientation());
+            exLayoutManager.setSpanSizeLookup(new HeaderSpanSizeLookup(mRecyclerViewAdapter, spanCount));
+            exLayoutManager.setGapStrategy(((StaggeredGridLayoutManager) layoutManager).getGapStrategy());
+            layoutManager = exLayoutManager;
+        } else if (layoutManager instanceof ExStaggeredGridLayoutManager) {
+            ((ExStaggeredGridLayoutManager) layoutManager).setSpanSizeLookup(new HeaderSpanSizeLookup(mRecyclerViewAdapter, ((ExStaggeredGridLayoutManager) layoutManager).getSpanCount()));
         }
         mRecyclerView.setLayoutManager(layoutManager);
     }
@@ -176,7 +191,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     public void setLoadMoreView(View loadMoreView) {
         int footersCount = this.getFootersCount();
         if (footersCount > 0) {
-            RecyclerViewUtils.removeFooterView(mRecyclerView,footersCount-1);
+            RecyclerViewUtils.removeFooterView(mRecyclerView, footersCount - 1);
         }
         addFooterView(loadMoreView);
     }
@@ -186,13 +201,13 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         @Override
         public void onBottom() {
             if (mLoadMore) {
-                if (mOnRefreshListener != null && mOnRefreshListener instanceof OnRefreshListener2){
+                if (mOnRefreshListener != null && mOnRefreshListener instanceof OnRefreshListener2 && mRecyclerViewAdapter.getInnerAdapter().getItemCount() > 0) {
                     setLoadingFooterState(LoadingFooter.State.Loading);
                     ((OnRefreshListener2) mOnRefreshListener).onLoadMore();
                     mLoadMore = false;
                 }
-            }else{
-                Log.d(TAG,"上一个加载更多请求尚未完成");
+            } else {
+                Log.d(TAG, "上一个加载更多请求尚未完成");
             }
         }
     };
@@ -201,6 +216,16 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     @Deprecated
     public void setRefreshing(boolean refreshing) {
         super.setRefreshing(refreshing);
+    }
+
+    /**
+     * 手动刷新
+     */
+    public void refresh() {
+        super.setRefreshing(true);
+        if (mOnRefreshListener != null) {
+            mOnRefreshListener.onRefresh();
+        }
     }
 
     /**
@@ -213,7 +238,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     }
 
     public void setLoadingFooterState(LoadingFooter.State state) {
-        if (mLoadingFooter==null){
+        if (mLoadingFooter == null) {
             return;
         }
         mLoadingFooter.setState(state);
