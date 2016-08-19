@@ -251,7 +251,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     public void refreshComplete() {
         super.setRefreshing(false);
         setLoadMore(false);
-        setLoadingFooterState(LoadingFooter.State.Normal);
+        //setLoadingFooterState(LoadingFooter.State.Normal);
     }
 
     /**
