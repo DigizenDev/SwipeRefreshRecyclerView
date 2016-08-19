@@ -254,6 +254,10 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         setLoadingFooterState(LoadingFooter.State.Normal);
     }
 
+    /**
+     *
+     * @return true正在加载;false未加载
+     */
     public boolean isLoadMore() {
         return mLoadMore;
     }
