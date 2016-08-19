@@ -137,6 +137,13 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         return mRecyclerView.getAdapter();
     }
 
+    public void addItemDecoration(RecyclerView.ItemDecoration decor, int index) {
+        mRecyclerView.addItemDecoration(decor,index);
+    }
+    public void addItemDecoration(RecyclerView.ItemDecoration decor) {
+        mRecyclerView.addItemDecoration(decor);
+    }
+
     /**
      * 通过布局id添加头部
      * 需在setAdapter之前
