@@ -33,6 +33,8 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     private boolean mLoadMoreEnabled;
     protected OnRefreshListener mOnRefreshListener;
 
+    private boolean mLoadMore;
+
     private final String TAG = "SwipeRefreshRecycler";
 
 
@@ -211,7 +213,8 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
                 return;
             }
             LoadingFooter.State state = getLoadingFooterState();
-            if (state == LoadingFooter.State.Loading) {
+            //if (state == LoadingFooter.State.Loading) {
+            if(mLoadMore){
                 Log.d(TAG, "上一个请求还未执行完成");
             }else if (state == LoadingFooter.State.NormalTheEnd) {
                 Log.d(TAG, "第一页就已经到底了");
@@ -247,8 +250,18 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
      */
     public void refreshComplete() {
         super.setRefreshing(false);
+        setLoadMore(false);
         setLoadingFooterState(LoadingFooter.State.Normal);
     }
+
+    /**
+     * 设置加载更多
+     * @param loadMore true可加载;false正在加载
+     */
+    public void setLoadMore(boolean loadMore) {
+        this.mLoadMore = loadMore;
+    }
+
 
     public void setLoadingFooterState(LoadingFooter.State state) {
         if (mLoadingFooter == null) {
