@@ -6,6 +6,7 @@
 
     <com.dyhdyh.swiperefresh.recyclerview.SwipeRefreshRecyclerView
         android:visibility="visible"
+        app:colorScheme="@color/colorAccent"
         app:loadMoreEnabled="false"
         android:layout_width="match_parent"
         android:id="@+id/rv"

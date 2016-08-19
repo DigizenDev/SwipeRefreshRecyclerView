@@ -72,6 +72,7 @@ public class LoadingFooter extends RelativeLayout {
 
         switch (status) {
 
+            case NormalTheEnd:
             case Normal:
                 setOnClickListener(null);
                 if (mLoadingView != null) {
@@ -157,6 +158,6 @@ public class LoadingFooter extends RelativeLayout {
     }
 
     public static enum State {
-        Normal/**正常*/, TheEnd/**加载到最底了*/, Loading/**加载中..*/, NetWorkError/**网络异常*/
+        Normal/**正常*/,NormalTheEnd/**无样式最底部*/, TheEnd/**加载到最底了*/, Loading/**加载中..*/, NetWorkError/**网络异常*/
     }
 }

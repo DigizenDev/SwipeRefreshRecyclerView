@@ -98,6 +98,15 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         }
     }
 
+    public void scrollToPosition(int position) {
+        mRecyclerView.scrollToPosition(position);
+    }
+    public void smoothScrollToPosition(int position) {
+        mRecyclerView.smoothScrollToPosition(position);
+    }
+    public void smoothScrollBy(int dx, int dy) {
+        mRecyclerView.smoothScrollBy(dx,dy);
+    }
 
     public void setLoadMoreEnabled(boolean loadMoreEnabled) {
         this.mLoadMoreEnabled = loadMoreEnabled;
@@ -204,6 +213,8 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
             LoadingFooter.State state = getLoadingFooterState();
             if (state == LoadingFooter.State.Loading) {
                 Log.d(TAG, "上一个请求还未执行完成");
+            }else if (state == LoadingFooter.State.NormalTheEnd) {
+                Log.d(TAG, "第一页就已经到底了");
             }else if (state == LoadingFooter.State.TheEnd) {
                 Log.d(TAG, "已经到底了");
             }else{
