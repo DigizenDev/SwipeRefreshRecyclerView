@@ -19,6 +19,8 @@ import com.cundong.recyclerview.HeaderSpanSizeLookup;
 import com.cundong.recyclerview.LoadingFooter;
 import com.cundong.recyclerview.RecyclerOnScrollListener;
 import com.cundong.recyclerview.RecyclerViewUtils;
+import com.dyhdyh.swiperefresh.recyclerview.decoration.HorizontalSpacingItemDecoration;
+import com.dyhdyh.swiperefresh.recyclerview.decoration.VerticalSpacingItemDecoration;
 
 
 /**
@@ -31,6 +33,12 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     private LoadingFooter mLoadingFooter;
     private HeaderAndFooterRecyclerViewAdapter mRecyclerViewAdapter;
     private boolean mLoadMoreEnabled;
+
+    private int mVerticalSpacing;
+    private int mHorizontalSpacing;
+    private RecyclerView.ItemDecoration mVerticalSpacingItemDecoration;
+    private RecyclerView.ItemDecoration mHorizontalSpacingItemDecoration;
+
     protected OnRefreshListener mOnRefreshListener;
 
     private boolean mLoadMore;
@@ -60,6 +68,9 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         }
         //模式
         this.mLoadMoreEnabled = a.getBoolean(R.styleable.SwipeRefreshRecyclerView_loadMoreEnabled, true);
+        //item间距
+        this.mVerticalSpacing = a.getDimensionPixelOffset(R.styleable.SwipeRefreshRecyclerView_android_verticalSpacing, 0);
+        this.mHorizontalSpacing = a.getDimensionPixelOffset(R.styleable.SwipeRefreshRecyclerView_android_horizontalSpacing, 0);
 
         a.recycle();
     }
@@ -103,11 +114,13 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     public void scrollToPosition(int position) {
         mRecyclerView.scrollToPosition(position);
     }
+
     public void smoothScrollToPosition(int position) {
         mRecyclerView.smoothScrollToPosition(position);
     }
+
     public void smoothScrollBy(int dx, int dy) {
-        mRecyclerView.smoothScrollBy(dx,dy);
+        mRecyclerView.smoothScrollBy(dx, dy);
     }
 
     public void setLoadMoreEnabled(boolean loadMoreEnabled) {
@@ -127,6 +140,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
             ((ExStaggeredGridLayoutManager) layoutManager).setSpanSizeLookup(new HeaderSpanSizeLookup(mRecyclerViewAdapter, ((ExStaggeredGridLayoutManager) layoutManager).getSpanCount()));
         }
         mRecyclerView.setLayoutManager(layoutManager);
+        this.setItemSpacingItemDecoration();
     }
 
     public RecyclerView.LayoutManager getLayoutManager() {
@@ -137,11 +151,40 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         return mRecyclerView.getAdapter();
     }
 
-    public void addItemDecoration(RecyclerView.ItemDecoration decor, int index) {
-        mRecyclerView.addItemDecoration(decor,index);
+
+    public int getChildAdapterPosition(View child) {
+        RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(child);
+        return RecyclerViewUtils.getAdapterPosition(mRecyclerView,holder);
     }
+
+    public int getChildLayoutPosition(View child) {
+        RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(child);
+        return RecyclerViewUtils.getLayoutPosition(mRecyclerView,holder);
+    }
+
+    private void setItemSpacingItemDecoration(){
+        mRecyclerView.removeItemDecoration(mVerticalSpacingItemDecoration);
+        mRecyclerView.removeItemDecoration(mHorizontalSpacingItemDecoration);
+        if (mVerticalSpacing!=0){
+            this.mVerticalSpacingItemDecoration=new VerticalSpacingItemDecoration(mVerticalSpacing);
+            mRecyclerView.addItemDecoration(this.mVerticalSpacingItemDecoration);
+        }
+        if (mHorizontalSpacing!=0){
+            this.mHorizontalSpacingItemDecoration=new HorizontalSpacingItemDecoration(mHorizontalSpacing);
+            mRecyclerView.addItemDecoration(this.mHorizontalSpacingItemDecoration);
+        }
+    }
+
+    public void addItemDecoration(RecyclerView.ItemDecoration decor, int index) {
+        mRecyclerView.addItemDecoration(decor, index);
+    }
+
     public void addItemDecoration(RecyclerView.ItemDecoration decor) {
         mRecyclerView.addItemDecoration(decor);
+    }
+
+    public void removeItemDecoration(RecyclerView.ItemDecoration decor) {
+        mRecyclerView.removeItemDecoration(decor);
     }
 
     /**
@@ -221,13 +264,13 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
             }
             LoadingFooter.State state = getLoadingFooterState();
             //if (state == LoadingFooter.State.Loading) {
-            if(mLoadMore){
+            if (mLoadMore) {
                 Log.d(TAG, "上一个请求还未执行完成");
-            }else if (state == LoadingFooter.State.NormalTheEnd) {
+            } else if (state == LoadingFooter.State.NormalTheEnd) {
                 Log.d(TAG, "第一页就已经到底了");
-            }else if (state == LoadingFooter.State.TheEnd) {
+            } else if (state == LoadingFooter.State.TheEnd) {
                 Log.d(TAG, "已经到底了");
-            }else{
+            } else {
                 if (mOnRefreshListener != null && mOnRefreshListener instanceof OnRefreshListener2 && mRecyclerViewAdapter.getInnerAdapter().getItemCount() > 0) {
                     setLoadingFooterState(LoadingFooter.State.Loading);
                     ((OnRefreshListener2) mOnRefreshListener).onLoadMore();
@@ -262,7 +305,6 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     }
 
     /**
-     *
      * @return true正在加载;false未加载
      */
     public boolean isLoadMore() {
@@ -271,6 +313,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
 
     /**
      * 设置加载更多
+     *
      * @param loadMore true可加载;false正在加载
      */
     public void setLoadMore(boolean loadMore) {
