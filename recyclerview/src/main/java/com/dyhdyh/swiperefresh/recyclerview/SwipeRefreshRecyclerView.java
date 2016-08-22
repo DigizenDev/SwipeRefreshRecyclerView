@@ -151,6 +151,22 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         return mRecyclerView.getAdapter();
     }
 
+    public void addOnScrollListener(RecyclerView.OnScrollListener listener) {
+        mRecyclerView.addOnScrollListener(listener);
+    }
+
+    public void setRecyclerListener(RecyclerView.RecyclerListener listener) {
+        mRecyclerView.setRecyclerListener(listener);
+    }
+
+    public void setItemAnimator(RecyclerView.ItemAnimator animator) {
+        mRecyclerView.setItemAnimator(animator);
+    }
+
+    public void addOnItemTouchListener(RecyclerView.OnItemTouchListener listener) {
+        mRecyclerView.addOnItemTouchListener(listener);
+    }
+
 
     public int getChildAdapterPosition(View child) {
         RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(child);
