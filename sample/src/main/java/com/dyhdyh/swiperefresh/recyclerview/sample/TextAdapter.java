@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author dengyuhan
@@ -25,8 +26,10 @@ public class TextAdapter extends RecyclerView.Adapter<TextAdapter.ViewHolder>{
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item,parent,false));
     }
 
+    Random random=new Random();
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.itemView.getLayoutParams().height=random.nextInt(333)+100;
         holder.tv.setText(dataSource.get(position));
     }
 

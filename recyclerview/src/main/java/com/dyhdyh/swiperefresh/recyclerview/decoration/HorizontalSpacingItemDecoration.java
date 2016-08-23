@@ -32,15 +32,16 @@ public class HorizontalSpacingItemDecoration extends RecyclerView.ItemDecoration
             childAdapterPosition = RecyclerViewUtils.getAdapterPosition(parent, parent.getChildViewHolder(view));
         }
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
+        outRect.left = horizontalSpacing;
         int spanCount = 0;
         if (layoutManager instanceof GridLayoutManager) {
             spanCount = ((GridLayoutManager) layoutManager).getSpanCount();
+            if (spanCount != 0 && (childAdapterPosition + 1) % spanCount == 0) {
+                outRect.right = horizontalSpacing;
+            }
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-            spanCount = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
-        }
-        outRect.left = horizontalSpacing;
-        if (spanCount != 0 && (childAdapterPosition + 1) % spanCount == 0) {
-            outRect.right = horizontalSpacing;
+            //spanCount = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
+            //outRect.right = horizontalSpacing;
         }
     }
 }

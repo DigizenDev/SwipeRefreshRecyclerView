@@ -3,7 +3,7 @@ package com.dyhdyh.swiperefresh.recyclerview.sample;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -28,9 +28,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshRecyc
         rv= (SwipeRefreshRecyclerView) findViewById(R.id.rv);
         adapter = new TextAdapter(testdata());
         rv.setAdapter(adapter);
-        //rv.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL));
+        rv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         //rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setLayoutManager(new GridLayoutManager(this,3));
+        //rv.setLayoutManager(new GridLayoutManager(this,3));
         rv.setOnRefreshListener(this);
 
         TextView tv=new TextView(this);
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshRecyc
         footer.setText("什么鬼这么多bug");
         footer.setBackgroundResource(R.color.colorPrimary);
         //rv.addFooterView(footer);
+
     }
 
     public void request(){
