@@ -106,9 +106,15 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         this.mRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(adapter);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
         if (mLoadMoreEnabled) {
-            mLoadingFooter = new LoadingFooter(getContext());
+            if (mLoadingFooter==null){
+                mLoadingFooter = new LoadingFooter(getContext());
+            }
             this.setLoadMoreView(mLoadingFooter);
         }
+    }
+
+    public void setLoadingFooter(LoadingFooter loadingFooter) {
+        this.mLoadingFooter = loadingFooter;
     }
 
     public void scrollToPosition(int position) {

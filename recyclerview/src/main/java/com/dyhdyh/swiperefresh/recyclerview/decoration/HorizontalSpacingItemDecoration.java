@@ -4,6 +4,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 import com.cundong.recyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -16,6 +17,7 @@ import com.cundong.recyclerview.RecyclerViewUtils;
 public class HorizontalSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
     private int horizontalSpacing;
+
 
     public HorizontalSpacingItemDecoration(int horizontalSpacing) {
         this.horizontalSpacing = horizontalSpacing;
@@ -40,8 +42,7 @@ public class HorizontalSpacingItemDecoration extends RecyclerView.ItemDecoration
                 outRect.right = horizontalSpacing;
             }
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-            //spanCount = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
-            //outRect.right = horizontalSpacing;
+
         }
     }
 }
