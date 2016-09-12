@@ -295,6 +295,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
             } else {
                 if (mOnRefreshListener != null && mOnRefreshListener instanceof OnRefreshListener2 && mRecyclerViewAdapter.getInnerAdapter().getItemCount() > 0) {
                     setLoadingFooterState(LoadingFooter.State.Loading);
+                    setLoadMore(true);
                     ((OnRefreshListener2) mOnRefreshListener).onLoadMore();
                 }
             }
