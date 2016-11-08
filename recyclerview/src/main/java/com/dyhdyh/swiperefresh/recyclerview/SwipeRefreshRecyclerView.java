@@ -33,6 +33,7 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
     private LoadingFooter mLoadingFooter;
     private HeaderAndFooterRecyclerViewAdapter mRecyclerViewAdapter;
     private boolean mLoadMoreEnabled;
+    private boolean mSwipeRefreshEnabled;
 
     private int mVerticalSpacing;
     private int mHorizontalSpacing;
@@ -68,6 +69,8 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         }
         //模式
         this.mLoadMoreEnabled = a.getBoolean(R.styleable.SwipeRefreshRecyclerView_loadMoreEnabled, true);
+        this.mSwipeRefreshEnabled = a.getBoolean(R.styleable.SwipeRefreshRecyclerView_swipeRefreshEnabled, true);
+        setEnabled(this.mSwipeRefreshEnabled);
         //item间距
         this.mVerticalSpacing = a.getDimensionPixelOffset(R.styleable.SwipeRefreshRecyclerView_android_verticalSpacing, 0);
         this.mHorizontalSpacing = a.getDimensionPixelOffset(R.styleable.SwipeRefreshRecyclerView_android_horizontalSpacing, 0);
@@ -249,8 +252,9 @@ public class SwipeRefreshRecyclerView extends SwipeRefreshLayout {
         RecyclerViewUtils.addFooterView(mRecyclerView, footerView);
     }
 
-    public void setEmptyView(View emptyView) {
-        // mRecyclerView.setEmptyView(emptyView);
+    public void setSwipeRefreshEnabled(boolean swipeRefreshEnabled) {
+        this.mSwipeRefreshEnabled = swipeRefreshEnabled;
+        setEnabled(this.mSwipeRefreshEnabled);
     }
 
     public int getHeadersCount() {

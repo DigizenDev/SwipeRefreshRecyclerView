@@ -8,6 +8,7 @@
     </declare-styleable>
 
     <declare-styleable name="SwipeRefreshRecyclerView">
+        <attr name="swipeRefreshEnabled" format="boolean"/>
         <attr name="loadMoreEnabled" format="boolean"/>
         <attr name="colorScheme" format="color"/>
         <attr name="android:horizontalSpacing"/>
