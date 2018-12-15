@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="base_activity_container">
+        <item name="android:id">@id/activity_container</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="base_content_container">
+        <item name="android:id">@id/content_container</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!-- 普通没有标题的dialog -->
+    <style name="Theme.Dialog.NoTitle" parent="Theme.AppCompat.Light.Dialog">
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 无标题 -->
+        <item name="windowNoTitle">true</item>
+        <!-- 背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!-- 普通没有标题的dialog 降低背景 -->
+    <style name="Theme.Dialog.NoTitle.Enabled" parent="Theme.Dialog.NoTitle">
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <!-- 底部弹出底部退出动画 -->
+    <style name="animation_bottom" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/bottom_enter</item>
+        <item name="android:windowExitAnimation">@anim/bottom_exit</item>
+    </style>
+
+    <!--顶部弹出顶部退出动画-->
+    <style name="animation_top" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/top_enter</item>
+        <item name="android:windowExitAnimation">@anim/top_exit</item>
+    </style>
+</resources>

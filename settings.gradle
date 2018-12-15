@@ -1,1 +1,1 @@
-include ':sample', ':recyclerview'
+include ':app', ':base-components'

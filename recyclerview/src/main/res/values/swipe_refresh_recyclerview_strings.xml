@@ -1,7 +1,0 @@
-<resources>
-
-    <!--footer-->
-    <string name="list_footer_loading">加载中...</string>
-    <string name="list_footer_network_error">上拉重新加载</string>
-    <string name="list_footer_end">^__^&#160;&#160;&#160;&#160;已经到底了哦</string>
-</resources>
