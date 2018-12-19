@@ -1,12 +1,13 @@
 package com.dyhdyh.base.components;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 /**
  * @author dengyuhan
@@ -15,10 +16,10 @@ import android.view.Window;
 public abstract class AbstractCompatDialog extends Dialog {
     public static final float WRAP_CONTENT = -1;
     public static final float DISPLAY_SIZE = Integer.MIN_VALUE;
-    public static final float MATCH_PARENT = 1f;
+    //填满 不包含StatusBar和NavigationBar
+    public static final float MATCH_PARENT = -2;
 
     protected Context mContext;
-    protected View mContentView;
 
     public AbstractCompatDialog(@NonNull Context context) {
         this(context, R.style.Theme_Dialog_NoTitle_Enabled);
@@ -28,7 +29,7 @@ public abstract class AbstractCompatDialog extends Dialog {
         super(context, themeResId);
         this.mContext = context;
         applyDialogAttributes();
-        super.setContentView(getContentViewId());
+        buildContentView();
         onAfterViews();
     }
 
@@ -40,6 +41,10 @@ public abstract class AbstractCompatDialog extends Dialog {
     }
 
     protected abstract int getContentViewId();
+
+    protected void buildContentView() {
+        super.setContentView(getContentViewId());
+    }
 
     protected abstract void onAfterViews();
 
@@ -63,12 +68,22 @@ public abstract class AbstractCompatDialog extends Dialog {
     }
 
 
+    /**
+     * 需要在setContentView之后
+     * @param widthScale
+     * @param heightScale
+     */
     public void setSize(float widthScale, float heightScale) {
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
+        if (getRawContext() instanceof Activity) {
+            ((Activity) getRawContext()).getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        }
         if (widthScale > 0) {
             getWindow().getAttributes().width = (int) ((float) metrics.widthPixels * widthScale);
         } else if (widthScale == DISPLAY_SIZE) {
             getWindow().getAttributes().width = metrics.widthPixels;
+        } else if (widthScale == MATCH_PARENT) {
+            getWindow().getAttributes().width = WindowManager.LayoutParams.MATCH_PARENT;
         }
 
         if (heightScale > 0) {
@@ -76,6 +91,8 @@ public abstract class AbstractCompatDialog extends Dialog {
             getWindow().getAttributes().height = (int) ((float) displayHeight * heightScale);
         } else if (heightScale == DISPLAY_SIZE) {
             getWindow().getAttributes().height = metrics.heightPixels;
+        } else if (widthScale == MATCH_PARENT) {
+            getWindow().getAttributes().height = WindowManager.LayoutParams.MATCH_PARENT;
         }
     }
 

@@ -102,7 +102,7 @@ public abstract class AbstractCompatActivity extends AppCompatActivity {
     /**
      * setContentView之后
      */
-    public abstract void onAfterViews();
+    protected abstract void onAfterViews();
 
     @Override
     protected void onDestroy() {
