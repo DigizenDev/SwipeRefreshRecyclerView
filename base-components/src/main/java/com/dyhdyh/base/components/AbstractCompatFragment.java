@@ -1,5 +1,6 @@
 package com.dyhdyh.base.components;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -21,6 +22,20 @@ public abstract class AbstractCompatFragment extends Fragment {
      */
     protected abstract @LayoutRes
     int getContentViewId();
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        final Bundle arguments = getArguments();
+        if (arguments != null) {
+            onInitArguments(arguments);
+        }
+    }
+
+    protected void onInitArguments(Bundle arg) {
+
+    }
 
     @Nullable
     @Override

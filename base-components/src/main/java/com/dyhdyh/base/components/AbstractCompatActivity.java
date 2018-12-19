@@ -1,5 +1,6 @@
 package com.dyhdyh.base.components;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ public abstract class AbstractCompatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        onInitIntent(getIntent());
         buildStatusBar();
         buildNavigationBar();
 
@@ -35,6 +37,9 @@ public abstract class AbstractCompatActivity extends AppCompatActivity {
         onAfterViews();
     }
 
+    protected void onInitIntent(Intent intent) {
+
+    }
 
     /**
      * 状态栏
