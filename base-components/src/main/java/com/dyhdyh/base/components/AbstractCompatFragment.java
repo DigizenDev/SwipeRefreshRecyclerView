@@ -40,12 +40,18 @@ public abstract class AbstractCompatFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return mContentView = inflater.inflate(getContentViewId(), container, false);
+        mContentView = inflater.inflate(getContentViewId(), container, false);
+        return mContentView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        buildContentView(mContentView);
+    }
+
+    protected void buildContentView(View contentView) {
+
     }
 
     public View getContentView() {
