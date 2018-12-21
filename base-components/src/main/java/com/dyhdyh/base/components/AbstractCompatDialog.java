@@ -1,6 +1,5 @@
 package com.dyhdyh.base.components;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -75,9 +74,6 @@ public abstract class AbstractCompatDialog extends Dialog {
      */
     public void setSize(float widthScale, float heightScale) {
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-        if (getRawContext() instanceof Activity) {
-            ((Activity) getRawContext()).getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-        }
         if (widthScale > 0) {
             getWindow().getAttributes().width = (int) ((float) metrics.widthPixels * widthScale);
         } else if (widthScale == DISPLAY_SIZE) {

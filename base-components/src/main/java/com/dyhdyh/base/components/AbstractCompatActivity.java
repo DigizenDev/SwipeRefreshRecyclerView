@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gyf.barlibrary.ImmersionBar;
 
 /**
  * @author dengyuhan
@@ -108,12 +107,6 @@ public abstract class AbstractCompatActivity extends AppCompatActivity {
      * setContentView之后
      */
     protected abstract void onAfterViews();
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ImmersionBar.with(this).destroy();
-    }
 
 
     public ViewGroup getActivityContainer() {
