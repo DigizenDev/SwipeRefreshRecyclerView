@@ -5,7 +5,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.Window;
+import android.view.LayoutInflater;
+import android.view.View;
 
 /**
  * @author dengyuhan
@@ -16,7 +17,8 @@ public abstract class AbstractCompatDialog extends Dialog {
     //填满 不包含StatusBar和NavigationBar
     public static final float MATCH_PARENT = 1f;
 
-    protected Context mContext;
+    private Context mContext;
+    private View mContentView;
 
     public AbstractCompatDialog(@NonNull Context context) {
         this(context, R.style.Theme_Dialog_NoTitle_Enabled);
@@ -40,7 +42,8 @@ public abstract class AbstractCompatDialog extends Dialog {
     protected abstract int getContentViewId();
 
     protected void buildContentView() {
-        super.setContentView(getContentViewId());
+        mContentView = LayoutInflater.from(mContext).inflate(getContentViewId(), null);
+        super.setContentView(mContentView);
     }
 
     protected abstract void onAfterViews();
@@ -50,18 +53,24 @@ public abstract class AbstractCompatDialog extends Dialog {
      * 设置Dialog从顶部进入和退出
      */
     public void setGravityBottom() {
-        Window window = getWindow();
-        window.setGravity(Gravity.BOTTOM);
-        window.setWindowAnimations(R.style.animation_bottom);
+        getWindow().setGravity(Gravity.BOTTOM);
+    }
+
+    public void setGravityBottomAnim() {
+        setGravityBottom();
+        getWindow().setWindowAnimations(R.style.animation_bottom);
     }
 
     /**
      * 设置Dialog从底部进入和退出
      */
     public void setGravityTop() {
-        Window window = getWindow();
-        window.setGravity(Gravity.TOP);
-        window.setWindowAnimations(R.style.animation_top);
+        getWindow().setGravity(Gravity.TOP);
+    }
+
+    public void setGravityTopAnim() {
+        setGravityTop();
+        getWindow().setWindowAnimations(R.style.animation_top);
     }
 
 
@@ -87,4 +96,7 @@ public abstract class AbstractCompatDialog extends Dialog {
         return mContext;
     }
 
+    public View getContentView() {
+        return mContentView;
+    }
 }
