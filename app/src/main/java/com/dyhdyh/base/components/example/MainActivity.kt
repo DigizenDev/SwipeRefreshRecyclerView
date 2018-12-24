@@ -1,13 +1,19 @@
 package com.dyhdyh.base.components.example
 
-import android.content.Intent
+import android.view.View
+import com.dyhdyh.base.components.example.dialog.ExampleDialog
 
 class MainActivity : BaseCompatActivity() {
     override fun onAfterViews() {
-        startActivity(Intent(this, ExampleFragmentActivity::class.java))
+        //startActivity(Intent(this, ExampleFragmentActivity::class.java))
     }
 
     override fun getContentViewId(): Int {
         return R.layout.activity_main
+    }
+
+
+    fun clickDialog(v: View) {
+        ExampleDialog(this).show()
     }
 }

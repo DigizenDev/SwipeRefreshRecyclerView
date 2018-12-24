@@ -24,6 +24,7 @@
         <item name="windowNoTitle">true</item>
         <!-- 背景透明 -->
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
     <!-- 普通没有标题的dialog 降低背景 -->
