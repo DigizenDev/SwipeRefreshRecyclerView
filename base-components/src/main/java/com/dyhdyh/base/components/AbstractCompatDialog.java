@@ -7,15 +7,16 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 
 /**
  * @author dengyuhan
  * created 2018/12/15 23:57
  */
 public abstract class AbstractCompatDialog extends Dialog {
-    public static final float WRAP_CONTENT = -1;
+    public static final float WRAP_CONTENT = WindowManager.LayoutParams.WRAP_CONTENT;
     //填满 不包含StatusBar和NavigationBar
-    public static final float MATCH_PARENT = 1f;
+    public static final float MATCH_PARENT = WindowManager.LayoutParams.MATCH_PARENT;
 
     private Context mContext;
     private View mContentView;
@@ -82,13 +83,24 @@ public abstract class AbstractCompatDialog extends Dialog {
      */
     public void setSize(float widthScale, float heightScale) {
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-        if (widthScale > 0) {
+        if (widthScale == WRAP_CONTENT) {
+            getWindow().getAttributes().width = WindowManager.LayoutParams.WRAP_CONTENT;
+        } else if (widthScale == MATCH_PARENT) {
+            getWindow().getAttributes().width = WindowManager.LayoutParams.MATCH_PARENT;
+        } else if (widthScale > 0) {
             getWindow().getAttributes().width = (int) ((float) metrics.widthPixels * widthScale);
+        } else {
+            if (mContentView != null && mContentView.getLayoutParams() != null) {
+                getWindow().getAttributes().width = mContentView.getLayoutParams().width;
+            }
         }
 
-        if (heightScale > 0) {
-            int displayHeight = metrics.heightPixels;
-            getWindow().getAttributes().height = (int) ((float) displayHeight * heightScale);
+        if (heightScale == WRAP_CONTENT) {
+            getWindow().getAttributes().height = WindowManager.LayoutParams.WRAP_CONTENT;
+        } else if (heightScale == MATCH_PARENT) {
+            getWindow().getAttributes().height = WindowManager.LayoutParams.MATCH_PARENT;
+        } else if (heightScale > 0) {
+            getWindow().getAttributes().height = (int) ((float) metrics.heightPixels * heightScale);
         }
     }
 

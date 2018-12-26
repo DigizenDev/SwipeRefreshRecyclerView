@@ -4,8 +4,8 @@ ext {
                     applicationId    : "com.dyhdyh.base.components.example",
 
                     //版本号
-                    versionCode      : 3,
-                    versionName      : "1.0.1-beta1",
+                    versionCode      : 4,
+                    versionName      : "1.0.1-beta2",
 
                     //sdk版本
                     compileSdkVersion: 28,

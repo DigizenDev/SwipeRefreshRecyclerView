@@ -2,7 +2,6 @@ package com.dyhdyh.base.components.example.dialog;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-
 import com.dyhdyh.base.components.AbstractCompatDialog;
 import com.dyhdyh.base.components.example.R;
 
@@ -27,7 +26,7 @@ public class ExampleDialog extends AbstractCompatDialog {
     @Override
     protected void applyDialogAttributes() {
         super.applyDialogAttributes();
-        setGravityBottom();
+        setGravityTopAnim();
     }
 
     @Override
