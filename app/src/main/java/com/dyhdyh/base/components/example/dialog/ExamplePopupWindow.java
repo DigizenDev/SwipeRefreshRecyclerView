@@ -2,7 +2,6 @@ package com.dyhdyh.base.components.example.dialog;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import com.dyhdyh.base.components.AbstractCompatDialog;
 import com.dyhdyh.base.components.AbstractCompatPopupWindow;
 import com.dyhdyh.base.components.example.R;
 
@@ -23,7 +22,7 @@ public class ExamplePopupWindow extends AbstractCompatPopupWindow {
     @Override
     protected void applyAttributes(Context context) {
         super.applyAttributes(context);
-        setAnimationBottom();
+        setAnimationTop();
     }
 
     @Override

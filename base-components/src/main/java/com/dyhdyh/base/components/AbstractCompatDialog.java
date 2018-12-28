@@ -94,6 +94,8 @@ public abstract class AbstractCompatDialog extends Dialog {
         } else {
             if (mContentView != null && mContentView.getLayoutParams() != null) {
                 getWindow().getAttributes().width = mContentView.getLayoutParams().width;
+            }else{
+                getWindow().getAttributes().width = WindowManager.LayoutParams.WRAP_CONTENT;
             }
         }
 
@@ -103,6 +105,12 @@ public abstract class AbstractCompatDialog extends Dialog {
             getWindow().getAttributes().height = WindowManager.LayoutParams.MATCH_PARENT;
         } else if (heightScale > 0) {
             getWindow().getAttributes().height = (int) ((float) metrics.heightPixels * heightScale);
+        } else {
+            if (mContentView != null && mContentView.getLayoutParams() != null) {
+                getWindow().getAttributes().height = mContentView.getLayoutParams().height;
+            }else{
+                getWindow().getAttributes().height = WindowManager.LayoutParams.WRAP_CONTENT;
+            }
         }
     }
 

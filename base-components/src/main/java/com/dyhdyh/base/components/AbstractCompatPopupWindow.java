@@ -7,11 +7,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.PopupWindowCompat;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.PopupWindow;
 
 /**
@@ -90,6 +86,8 @@ public abstract class AbstractCompatPopupWindow extends PopupWindow {
         } else {
             if (mContentView != null && mContentView.getLayoutParams() != null) {
                 setWidth(mContentView.getLayoutParams().width);
+            }else{
+                setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
             }
         }
 
@@ -99,6 +97,12 @@ public abstract class AbstractCompatPopupWindow extends PopupWindow {
             setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         } else if (heightScale > 0) {
             setHeight((int) ((float) metrics.heightPixels * heightScale));
+        }else {
+            if (mContentView != null && mContentView.getLayoutParams() != null) {
+                setHeight(mContentView.getLayoutParams().height);
+            }else{
+                setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
         }
     }
 
