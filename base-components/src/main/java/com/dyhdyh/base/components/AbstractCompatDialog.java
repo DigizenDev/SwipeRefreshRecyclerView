@@ -17,6 +17,7 @@ public abstract class AbstractCompatDialog extends Dialog {
     public static final float WRAP_CONTENT = WindowManager.LayoutParams.WRAP_CONTENT;
     //填满 不包含StatusBar和NavigationBar
     public static final float MATCH_PARENT = WindowManager.LayoutParams.MATCH_PARENT;
+    public static final float CONTENT_VIEW = Integer.MIN_VALUE;
 
     private Context mContext;
     private View mContentView;
@@ -45,6 +46,7 @@ public abstract class AbstractCompatDialog extends Dialog {
     protected void buildContentView() {
         mContentView = LayoutInflater.from(mContext).inflate(getContentViewId(), null);
         super.setContentView(mContentView);
+        setSize(CONTENT_VIEW, CONTENT_VIEW);
     }
 
     protected abstract void onAfterViews();

@@ -22,6 +22,7 @@ public abstract class AbstractCompatPopupWindow extends PopupWindow {
     public static final float WRAP_CONTENT = WindowManager.LayoutParams.WRAP_CONTENT;
     //填满 不包含StatusBar和NavigationBar
     public static final float MATCH_PARENT = WindowManager.LayoutParams.MATCH_PARENT;
+    public static final float CONTENT_VIEW = Integer.MIN_VALUE;
 
     private static final int DEFAULT_ANCHORED_GRAVITY = Gravity.TOP | Gravity.START;
 
@@ -56,6 +57,7 @@ public abstract class AbstractCompatPopupWindow extends PopupWindow {
     protected void buildContentView(Context context) {
         mContentView = LayoutInflater.from(context).inflate(getContentViewId(), null);
         super.setContentView(mContentView);
+        setSize(CONTENT_VIEW, CONTENT_VIEW);
     }
 
     protected abstract void onAfterViews();
