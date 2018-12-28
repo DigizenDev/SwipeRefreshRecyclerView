@@ -9,9 +9,15 @@
     android:padding="16dp">
 
     <Button
-        android:onClick="clickDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="clickDialog"
         android:text="Dialog" />
+    <Button
+        android:id="@+id/btn_popup_window"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="clickPopupWindow"
+        android:text="PopupWindow" />
 
 </LinearLayout>
