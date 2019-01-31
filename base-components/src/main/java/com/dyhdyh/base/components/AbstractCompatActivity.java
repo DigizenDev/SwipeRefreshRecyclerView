@@ -79,21 +79,25 @@ public abstract class AbstractCompatActivity extends AppCompatActivity {
      * setContentView
      */
     protected void buildContentView() {
-        final LayoutInflater layoutInflater = LayoutInflater.from(this);
-        mActivityContainerView = (ViewGroup) layoutInflater.inflate(getActivityContainerViewId(), null);
+        mActivityContainerView = buildActivityContainerView();
         mContentContainerView = mActivityContainerView.findViewById(R.id.content_container);
 
         //如果有content_container就添加到content_container，没有就添加到activity_container
         final ViewGroup contentContainer = getContentContainer();
-        mContentView = layoutInflater.inflate(getContentViewId(), contentContainer, false);
+        mContentView = LayoutInflater.from(this).inflate(getContentViewId(), contentContainer, false);
         contentContainer.addView(mContentView);
-        super.setContentView(mActivityContainerView);
+        this.setContentView(mActivityContainerView);
 
         //Toolbar View
         View toolbarView = mActivityContainerView.findViewById(R.id.toolbar);
         if (toolbarView != null) {
             buildToolbarView(toolbarView);
         }
+    }
+
+
+    protected ViewGroup buildActivityContainerView() {
+        return (ViewGroup) LayoutInflater.from(this).inflate(getActivityContainerViewId(), null);
     }
 
     /**
