@@ -1,22 +1,22 @@
 package com.dyhdyh.base.components.delegate;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.PopupWindow;
 
 /**
  * @author dengyuhan
  * created 2019/3/15 17:53
  */
-public interface DialogDelegateCallback {
+public interface PopupWindowDelegateCallback {
 
     @NonNull
-    Dialog get();
+    PopupWindow get();
 
     @NonNull
-    DialogDelegate delegate();
+    PopupWindowDelegate delegate();
 
     void onBeforeViews();
 

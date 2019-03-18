@@ -7,9 +7,9 @@ import android.view.WindowManager;
 
 /**
  * @author dengyuhan
- * created 2019/3/15 17:53
+ * created 2019/3/18 16:01
  */
-public interface DialogDelegate {
+public interface PopupWindowDelegate {
     float WRAP_CONTENT = WindowManager.LayoutParams.WRAP_CONTENT;
     //填满 不包含StatusBar和NavigationBar
     float MATCH_PARENT = WindowManager.LayoutParams.MATCH_PARENT;
@@ -19,9 +19,10 @@ public interface DialogDelegate {
 
     void setSize(float widthScale, float heightScale);
 
+    void showAsDropDown(View anchor, int xoff, int yoff);
+
     View getView();
 
     @NonNull
     Context getRawContext();
-
 }

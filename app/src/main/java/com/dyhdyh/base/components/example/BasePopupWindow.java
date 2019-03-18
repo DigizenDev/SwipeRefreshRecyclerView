@@ -1,42 +1,41 @@
 package com.dyhdyh.base.components.example;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
-import com.dyhdyh.base.components.delegate.DialogDelegate;
-import com.dyhdyh.base.components.delegate.DialogDelegateCallback;
-import com.dyhdyh.base.components.delegate.impl.DialogDelegateImpl;
+import android.widget.PopupWindow;
+import com.dyhdyh.base.components.delegate.PopupWindowDelegate;
+import com.dyhdyh.base.components.delegate.PopupWindowDelegateCallback;
+import com.dyhdyh.base.components.delegate.impl.PopupWindowDelegateImpl;
 
 /**
  * @author dengyuhan
- * created 2019/3/18 12:00
+ * created 2019/3/18 16:05
  */
-public abstract class BaseDialog extends Dialog implements DialogDelegateCallback {
-    private DialogDelegate mDelegate;
+public abstract class BasePopupWindow extends PopupWindow implements PopupWindowDelegateCallback {
+    protected PopupWindowDelegate mDelegate;
 
-    public BaseDialog(Context context) {
+    public BasePopupWindow(Context context) {
         super(context);
         delegate().onCreate(context);
     }
 
-    public BaseDialog(Context context, int themeResId) {
-        super(context, themeResId);
-        delegate().onCreate(context);
+    @Override
+    public void showAsDropDown(View anchor, int xoff, int yoff) {
+        delegate().showAsDropDown(anchor, xoff, yoff);
     }
-
 
     @NonNull
     @Override
-    public Dialog get() {
+    public PopupWindow get() {
         return this;
     }
 
     @NonNull
     @Override
-    public DialogDelegate delegate() {
+    public PopupWindowDelegate delegate() {
         if (mDelegate == null) {
-            mDelegate = new DialogDelegateImpl(this);
+            mDelegate = new PopupWindowDelegateImpl(this);
         }
         return mDelegate;
     }
@@ -56,8 +55,6 @@ public abstract class BaseDialog extends Dialog implements DialogDelegateCallbac
         return delegate().getView();
     }
 
-
-    @NonNull
     @Override
     public Context getRawContext() {
         return delegate().getRawContext();

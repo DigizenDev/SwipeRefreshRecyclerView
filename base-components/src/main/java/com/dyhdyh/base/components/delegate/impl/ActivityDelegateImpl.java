@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.dyhdyh.base.components.R;
 import com.dyhdyh.base.components.delegate.ActivityDelegate;
 import com.dyhdyh.base.components.delegate.ActivityDelegateCallback;
@@ -42,16 +43,18 @@ public class ActivityDelegateImpl implements ActivityDelegate {
         }
         mCallback.onBuildSystemBar();
 
-        mCallback.get().setContentView(mCallback.getContentViewId());
+        final View view = onBuildContentView();
+        if (view != null) {
+            mCallback.get().setContentView(view);
+        }
 
         mCallback.onAfterViews(savedInstanceState);
     }
 
-    @NonNull
-    @Override
-    public View onBuildContentView(View view) {
+    @Nullable
+    public View onBuildContentView() {
         mRootView = buildRootView();
-        ViewGroup contentContainer = mRootView.findViewById(R.id.content_container);
+        ViewGroup contentContainer = mRootView.findViewById(R.id.container_content_view);
         //如果有content_container就添加到content_container，没有就添加到activity_container
         if (contentContainer == null) {
             contentContainer = mRootView;
@@ -60,7 +63,7 @@ public class ActivityDelegateImpl implements ActivityDelegate {
         contentContainer.addView(mContentView);
 
         //Toolbar View
-        View toolbarView = mRootView.findViewById(R.id.toolbar);
+        View toolbarView = mRootView.findViewById(R.id.toolbar_view);
         if (toolbarView != null) {
             mCallback.onBuildToolbarView(toolbarView);
         }
@@ -68,9 +71,12 @@ public class ActivityDelegateImpl implements ActivityDelegate {
     }
 
 
-    protected @NonNull
-    ViewGroup buildRootView() {
-        return (ViewGroup) LayoutInflater.from(mCallback.get()).inflate(mCallback.getRootViewId(), null);
+    @NonNull
+    protected ViewGroup buildRootView() {
+        if (mCallback.getRootViewId() != -1 && mCallback.getRootViewId() != 0) {
+            return (ViewGroup) LayoutInflater.from(mCallback.get()).inflate(mCallback.getRootViewId(), null);
+        }
+        return null;
     }
 
     @Override

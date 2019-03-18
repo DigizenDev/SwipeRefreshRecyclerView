@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+
 import com.dyhdyh.base.components.delegate.ActivityDelegate;
 import com.dyhdyh.base.components.delegate.ActivityDelegateCallback;
 import com.dyhdyh.base.components.delegate.impl.ActivityDelegateImpl;
@@ -34,6 +36,13 @@ public abstract class BaseCompatActivity extends AppCompatActivity implements Ac
     }
 
     @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        delegate().onBeforeCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
+        delegate().onCreate(savedInstanceState);
+    }
+
+    @Override
     public void onBeforeCreate(@Nullable Bundle savedInstanceState) {
 
     }
@@ -50,12 +59,12 @@ public abstract class BaseCompatActivity extends AppCompatActivity implements Ac
 
     @Override
     public int getRootViewId() {
-        return 0;
+        return R.layout.base_toolbar_activity_container;
     }
 
     @Override
     public void onBuildToolbarView(@NonNull View toolbarView) {
-
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar_view));
     }
 
 

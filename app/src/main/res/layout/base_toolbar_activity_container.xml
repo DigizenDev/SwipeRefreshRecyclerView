@@ -4,7 +4,7 @@
     style="@style/base_activity_container">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@id/toolbar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -12,6 +12,6 @@
 
     <RelativeLayout
         style="@style/base_content_container"
-        android:layout_below="@id/toolbar" />
+        android:layout_below="@id/toolbar_view" />
 
 </RelativeLayout>

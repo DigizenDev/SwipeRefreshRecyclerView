@@ -4,17 +4,19 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.dyhdyh.base.components.delegate.FragmentDelegate;
+import com.dyhdyh.base.components.delegate.FragmentDelegateCallback;
 import com.dyhdyh.base.components.delegate.impl.FragmentDelegateImpl;
 
 /**
  * @author dengyuhan
  * created 2019/3/15 17:33
  */
-public class BaseFragment extends CallbackFragment{
+public abstract class BaseFragment extends Fragment implements FragmentDelegateCallback {
     private FragmentDelegate mDelegate;
 
     public BaseFragment() {
@@ -38,4 +40,15 @@ public class BaseFragment extends CallbackFragment{
         super.onViewCreated(view, savedInstanceState);
         mDelegate.onViewCreated(view, savedInstanceState);
     }
+
+    @Override
+    public Fragment get() {
+        return this;
+    }
+
+    @Override
+    public void onInitArguments(@NonNull Bundle arguments) {
+
+    }
+
 }
