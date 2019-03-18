@@ -7,18 +7,18 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.dyhdyh.base.components.delegate.DelegateFragment;
-import com.dyhdyh.base.components.delegate.impl.DelegateFragmentImpl;
+import com.dyhdyh.base.components.delegate.FragmentDelegate;
+import com.dyhdyh.base.components.delegate.impl.FragmentDelegateImpl;
 
 /**
  * @author dengyuhan
  * created 2019/3/15 17:33
  */
 public class BaseFragment extends CallbackFragment{
-    private DelegateFragment mDelegate;
+    private FragmentDelegate mDelegate;
 
     public BaseFragment() {
-        mDelegate = new DelegateFragmentImpl(this);
+        mDelegate = new FragmentDelegateImpl(this);
     }
 
     @Override

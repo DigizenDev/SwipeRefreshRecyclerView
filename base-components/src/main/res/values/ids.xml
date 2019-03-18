@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item type="id" name="activity_container"/>
-    <item type="id" name="content_container"/>
-    <item type="id" name="toolbar"/>
+    <item type="id" name="container_root_view"/>
+    <item type="id" name="container_content_view"/>
+    <item type="id" name="toolbar_view"/>
 </resources>

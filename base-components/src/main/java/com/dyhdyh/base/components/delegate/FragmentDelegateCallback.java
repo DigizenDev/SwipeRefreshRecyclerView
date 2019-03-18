@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
  * @author dengyuhan
  * created 2019/3/15 17:38
  */
-public interface DelegateFragmentCallback {
+public interface FragmentDelegateCallback {
 
     Fragment get();
 

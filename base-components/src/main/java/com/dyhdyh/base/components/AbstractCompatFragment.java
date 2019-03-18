@@ -50,6 +50,11 @@ public abstract class AbstractCompatFragment extends Fragment {
         buildContentView(mContentView);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
     protected void buildContentView(View contentView) {
 
     }

@@ -7,19 +7,19 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.dyhdyh.base.components.delegate.DelegateFragment;
-import com.dyhdyh.base.components.delegate.DelegateFragmentCallback;
+import com.dyhdyh.base.components.delegate.FragmentDelegate;
+import com.dyhdyh.base.components.delegate.FragmentDelegateCallback;
 
 /**
- * fragment代理类 接管fragment
+ * BaseFragment的逻辑具体实现
  *
  * @author dengyuhan
  * created 2019/3/15 17:37
  */
-public class DelegateFragmentImpl implements DelegateFragment {
-    private DelegateFragmentCallback mFragmentCallback;
+public class FragmentDelegateImpl implements FragmentDelegate {
+    private FragmentDelegateCallback mFragmentCallback;
 
-    public DelegateFragmentImpl(DelegateFragmentCallback callback) {
+    public FragmentDelegateImpl(FragmentDelegateCallback callback) {
         this.mFragmentCallback = callback;
     }
 
