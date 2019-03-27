@@ -14,6 +14,9 @@ import android.view.ViewGroup;
  * created 2019/3/15 17:32
  */
 public interface FragmentDelegate {
+    @NonNull
+    FragmentDelegateCallback getCallback();
+
     void onAttach(Context context);
 
     View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);

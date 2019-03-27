@@ -30,6 +30,12 @@ public class ActivityDelegateImpl implements ActivityDelegate {
         this.mCallback = callback;
     }
 
+    @NonNull
+    @Override
+    public ActivityDelegateCallback getCallback() {
+        return mCallback;
+    }
+
     @Override
     public void onBeforeCreate(@Nullable Bundle savedInstanceState) {
         mCallback.onBeforeCreate(savedInstanceState);

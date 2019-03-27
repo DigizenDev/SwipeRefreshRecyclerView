@@ -15,6 +15,9 @@ public interface DialogDelegate {
     float MATCH_PARENT = WindowManager.LayoutParams.MATCH_PARENT;
     float CONTENT_VIEW = Integer.MIN_VALUE;
 
+    @NonNull
+    DialogDelegateCallback getCallback();
+
     void onCreate(Context context);
 
     void setSize(float widthScale, float heightScale);

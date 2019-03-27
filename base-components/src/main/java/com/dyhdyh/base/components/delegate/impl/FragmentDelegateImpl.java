@@ -19,8 +19,13 @@ import com.dyhdyh.base.components.delegate.FragmentDelegateCallback;
 public class FragmentDelegateImpl implements FragmentDelegate {
     private FragmentDelegateCallback mFragmentCallback;
 
-    public FragmentDelegateImpl(FragmentDelegateCallback callback) {
+    public FragmentDelegateImpl(@NonNull FragmentDelegateCallback callback) {
         this.mFragmentCallback = callback;
+    }
+
+    @Override
+    public FragmentDelegateCallback getCallback() {
+        return mFragmentCallback;
     }
 
     @Override
@@ -40,4 +45,5 @@ public class FragmentDelegateImpl implements FragmentDelegate {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mFragmentCallback.onAfterViews();
     }
+
 }

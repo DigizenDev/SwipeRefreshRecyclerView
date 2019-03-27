@@ -20,10 +20,16 @@ public class DialogDelegateImpl implements DialogDelegate {
     private Context mContext;
     private View mContentView;
 
-    public DialogDelegateImpl(DialogDelegateCallback callback) {
+    public DialogDelegateImpl(@NonNull DialogDelegateCallback callback) {
         this.mCallback = callback;
     }
 
+
+    @NonNull
+    @Override
+    public DialogDelegateCallback getCallback() {
+        return mCallback;
+    }
 
     @Override
     public void onCreate(Context context) {
