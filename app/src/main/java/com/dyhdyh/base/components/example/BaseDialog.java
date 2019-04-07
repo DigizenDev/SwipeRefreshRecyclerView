@@ -25,7 +25,6 @@ public abstract class BaseDialog extends Dialog implements DialogDelegateCallbac
         delegate().onCreate(context);
     }
 
-
     @NonNull
     @Override
     public Dialog get() {

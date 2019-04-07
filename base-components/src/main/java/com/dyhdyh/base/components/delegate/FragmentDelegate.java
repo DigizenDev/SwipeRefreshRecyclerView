@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 /**
  * Fragment的代理类 接管fragment
+ *
  * @author dengyuhan
  * created 2019/3/15 17:32
  */
@@ -22,4 +23,6 @@ public interface FragmentDelegate {
     View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
     void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState);
+
+    void onActivityCreated(@Nullable Bundle savedInstanceState);
 }

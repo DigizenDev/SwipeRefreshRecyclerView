@@ -17,33 +17,39 @@ import com.dyhdyh.base.components.delegate.FragmentDelegateCallback;
  * created 2019/3/15 17:37
  */
 public class FragmentDelegateImpl implements FragmentDelegate {
-    private FragmentDelegateCallback mFragmentCallback;
+    private FragmentDelegateCallback mCallback;
 
     public FragmentDelegateImpl(@NonNull FragmentDelegateCallback callback) {
-        this.mFragmentCallback = callback;
+        this.mCallback = callback;
     }
 
+    @NonNull
     @Override
     public FragmentDelegateCallback getCallback() {
-        return mFragmentCallback;
+        return mCallback;
     }
 
     @Override
     public void onAttach(Context context) {
-        final Bundle arguments = mFragmentCallback.get().getArguments();
+        final Bundle arguments = mCallback.get().getArguments();
         if (arguments != null) {
-            mFragmentCallback.onInitArguments(arguments);
+            mCallback.onInitArguments(arguments);
         }
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(mFragmentCallback.getLayoutId(), container, false);
+        return inflater.inflate(mCallback.getLayoutId(), container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mFragmentCallback.onAfterViews();
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        mCallback.onAfterViews();
     }
 
 }

@@ -42,6 +42,12 @@ public abstract class BaseFragment extends Fragment implements FragmentDelegateC
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mDelegate.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public Fragment get() {
         return this;
     }

@@ -1,1 +1,1 @@
-include ':app', ':base-components'
+include ':app', ':base-components', ':base_components_compiler'
